@@ -13,4 +13,5 @@ readme = "README.md"
 bb8 = "0.9"
 bytes = "1.0"
 futures = "0.3"
+http = "1"
 tonic = { version = "0.12", default-features = false, features = ["channel"] }

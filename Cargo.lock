@@ -38,6 +38,7 @@ dependencies = [
  "bb8",
  "bytes",
  "futures",
+ "http",
  "tonic",
 ]
 

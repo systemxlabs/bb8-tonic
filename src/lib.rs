@@ -2,12 +2,15 @@ mod choose;
 
 pub use choose::*;
 
-use bb8::ManageConnection;
+use bb8::{ManageConnection, PooledConnection};
 use bytes::Bytes;
-use std::sync::Arc;
+use std::{
+    sync::Arc,
+    task::{Context, Poll},
+};
 use tonic::{
     client::GrpcService,
-    transport::{Channel, Endpoint},
+    transport::{Channel, Endpoint, channel::ResponseFuture},
 };
 
 #[derive(Debug, Clone)]
@@ -63,6 +66,22 @@ impl ManageConnection for TonicChannelManager {
 
     fn has_broken(&self, _conn: &mut Self::Connection) -> bool {
         false
+    }
+}
+
+pub struct PooledConnectionWrapper<'a>(pub PooledConnection<'a, TonicChannelManager>);
+
+impl tonic::client::GrpcService<tonic::body::BoxBody> for PooledConnectionWrapper<'_> {
+    type ResponseBody = tonic::body::BoxBody;
+    type Error = tonic::transport::Error;
+    type Future = ResponseFuture;
+
+    fn poll_ready(&mut self, cx: &mut Context<'_>) -> Poll<Result<(), Self::Error>> {
+        self.0.poll_ready(cx)
+    }
+
+    fn call(&mut self, request: http::Request<tonic::body::BoxBody>) -> Self::Future {
+        self.0.call(request)
     }
 }
 
