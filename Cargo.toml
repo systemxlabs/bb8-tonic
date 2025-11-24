@@ -1,0 +1,16 @@
+[package]
+name = "bb8-tonic"
+version = "0.1.0"
+edition = "2024"
+authors = ["lewiszlw <lewiszlw520@gmail.com>"]
+description = "Tonic support for bb8 connection pool"
+keywords = ["pool", "grpc", "connection"]
+license = "MIT"
+repository = "https://github.com/systemxlabs/bb8-tonic"
+readme = "../README.md"
+
+[dependencies]
+bb8 = "0.9"
+bytes = "1.0"
+futures = "0.3"
+tonic = { version = "0.12", default-features = false, features = ["channel"] }
