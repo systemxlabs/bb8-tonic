@@ -7,7 +7,7 @@ description = "Tonic support for bb8 connection pool"
 keywords = ["pool", "grpc", "connection"]
 license = "MIT"
 repository = "https://github.com/systemxlabs/bb8-tonic"
-readme = "../README.md"
+readme = "README.md"
 
 [dependencies]
 bb8 = "0.9"
