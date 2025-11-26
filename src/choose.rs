@@ -31,6 +31,12 @@ impl RoundRobin {
     }
 }
 
+impl Default for RoundRobin {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl Choose for RoundRobin {
     fn choose<'a>(&self, endpoints: &'a [Endpoint]) -> &'a Endpoint {
         let index = self.index.fetch_add(1, Ordering::Relaxed) % endpoints.len() as u32;

@@ -1,6 +1,6 @@
 [package]
 name = "bb8-tonic"
-version = "0.2.0"
+version = "0.3.0"
 edition = "2024"
 authors = ["lewiszlw <lewiszlw520@gmail.com>"]
 description = "Tonic support for bb8 connection pool"
@@ -14,5 +14,5 @@ bb8 = "0.9"
 bytes = "1.0"
 futures = "0.3"
 http = "1"
-tonic = { version = "0.12", default-features = false, features = ["channel"] }
+tonic = { version = "0.13", default-features = false, features = ["channel"] }
 tower-service = "0.3"

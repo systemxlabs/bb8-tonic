@@ -9,7 +9,6 @@ use std::{
     task::{Context, Poll},
 };
 use tonic::{
-    body::BoxBody,
     client::GrpcService,
     transport::{Channel, Endpoint, channel::ResponseFuture},
 };
@@ -72,8 +71,8 @@ impl ManageConnection for TonicChannelManager {
 
 pub struct PooledConnectionWrapper<'a>(pub PooledConnection<'a, TonicChannelManager>);
 
-impl tower_service::Service<http::Request<BoxBody>> for PooledConnectionWrapper<'_> {
-    type Response = http::Response<tonic::body::BoxBody>;
+impl tower_service::Service<http::Request<tonic::body::Body>> for PooledConnectionWrapper<'_> {
+    type Response = http::Response<tonic::body::Body>;
     type Error = tonic::transport::Error;
     type Future = ResponseFuture;
 
@@ -81,7 +80,7 @@ impl tower_service::Service<http::Request<BoxBody>> for PooledConnectionWrapper<
         tower_service::Service::poll_ready(&mut *self.0, cx)
     }
 
-    fn call(&mut self, request: http::Request<BoxBody>) -> Self::Future {
+    fn call(&mut self, request: http::Request<tonic::body::Body>) -> Self::Future {
         tower_service::Service::call(&mut *self.0, request)
     }
 }
