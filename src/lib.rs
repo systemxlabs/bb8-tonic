@@ -53,6 +53,7 @@ impl ManageConnection for TonicChannelManager {
     type Connection = Channel;
     type Error = tonic::transport::Error;
 
+    #[allow(clippy::manual_async_fn)]
     fn connect(&self) -> impl Future<Output = Result<Self::Connection, Self::Error>> + Send {
         async { self.choose_one().connect().await }
     }
